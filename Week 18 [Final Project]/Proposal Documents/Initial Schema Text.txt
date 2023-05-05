@@ -1,0 +1,41 @@
+DROP TABLE IF EXISTS series_genre;
+DROP TABLE IF EXISTS genre;
+DROP TABLE IF EXISTS book;
+DROP TABLE IF EXISTS series;
+
+CREATE TABLE series (
+	series_id INTEGER AUTO_INCREMENT NOT NULL,
+	series_name VARCHAR(256) NOT NULL,
+	summary TEXT,
+	num_of_books INTEGER NOT NULL,
+	PRIMARY KEY (series_id),
+	UNIQUE KEY (series_name)
+);
+
+CREATE TABLE book (
+	book_id INTEGER AUTO_INCREMENT NOT NULL,
+	series_id INTEGER NOT NULL,
+	book_title VARCHAR(256) NOT NULL,
+	series_book_order INTEGER NOT NULL,
+	author VARCHAR(128) NOT NULL,
+	num_of_chapters INTEGER NOT NULL,
+	release_year YEAR NOT NULL,
+	PRIMARY KEY (material_id),
+	FOREIGN KEY (series_id) REFERENCES series (series_id) ON DELETE CASCADE,
+	UNIQUE KEY (series_book_order)
+);
+
+CREATE TABLE genre (
+	genre_id INTEGER AUTO_INCREMENT NOT NULL,
+	genre_name VARCHAR(128) NOT NULL,
+	PRIMARY KEY (genre_id)
+);
+
+CREATE TABLE series_genre (
+	series_id INTEGER AUTO_INCREMENT NOT NULL,
+	genre_id INTEGER NOT NULL,
+	FOREIGN KEY (series_id) REFERENCES series (series_id) ON DELETE CASCADE,
+	FOREIGN KEY (genre_id) REFERENCES genre (genre_id) ON DELETE CASCADE,
+	UNIQUE KEY (series_id, genre_id)
+);
+
